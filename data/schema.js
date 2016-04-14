@@ -10,10 +10,7 @@ import {
 
 import validator from '../handlers/validator';
 
-
-
 let Schema = (db) => {
-    
     
   let country = new GraphQLObjectType({
         name: "country",
@@ -113,14 +110,58 @@ let Schema = (db) => {
         resolve: (value, {site}) => {
             let errors = [];
             console.log("In resolver")
+            console.log(site)
+            console.log(site.id)
+            var error = false;
+            if (!validator.validateNonEmptyId(site.id)){
+                console.log("id check failed")
+                errors.push(...["id","id must be supplied"]);
+                error = true;
+            }
+             if (!validator.validateCountry(site.country)){
+                errors.push(...["country","country must be supplied"]);
+                error = true;
+             }
+            if (!error) {
+                var existingSite = db.sites[site.id];
+                console.log(existingSite);
+                existingSite.address1 = site.address1;
+                existingSite.address2 = site.address2;
+                existingSite.businessLayer1 = site.businessLayer1;
+                existingSite.city = site.city;
+                existingSite.country = db.findCountryByName(site.country.name);
+                existingSite.state = db.findStateByName(site.state.name);
+                existingSite.name = site.name;
+                existingSite.siteNo = site.siteNo;
+                existingSite.suburb = site.suburb;
+                console.log(existingSite);
+                return  {errors,  site: existingSite};
+            }
+            
+            return  {errors,  site};
+        }  
+    };              
+    
+    let insertSite = {
+        name: "updateSite",
+        type: updateSiteResult,
+        args: {
+            site: {type: inputSite}
+        },
+        resolve: (value, {site}) => {
+            let errors = [];
+            console.log("In resolver")
             if (!validator.validateCountry(site.country))
                 errors.push(...["country","country must be supplied"]);
             else {
-                //do update here ...
+                site.id = db.sites.length;
+                site.country = db.findCountryByName(site.country.name);
+                site.state = db.findStateByName(site.state.name);
+                db.sites.push(site);
             }
             return  {errors, site};
         }  
-    };                        
+    };                      
 
     let schema = new GraphQLSchema({
         query: new GraphQLObjectType({
@@ -170,7 +211,8 @@ let Schema = (db) => {
         mutation: new GraphQLObjectType({
             name: "mutation",
             fields: () => ({
-                updateSite: updateSite
+                updateSite: updateSite,
+                insertSite: insertSite
             }),   
         })
     });

@@ -32,7 +32,29 @@ function Database () {
     this.sites = [{id: 0, siteNo: "xxaa", name: "Melbourne CBD", address1: "200 Collins Street", address2: "", city: "Melbourne", suburb: "Melbourne", country: 0, state: 0, postcode: 3000},
                 {id: 1, siteNo: "xxaa222", name: "Sydney CBD", address1: "Level 3", address2: "200 George Street", city: "Sydney",  suburb: "Sydney", country: 0, state: 1, postcode: 2000},
                 {id: 2, siteNo: "xxaa333", name: "Singapore", address1: "17 Rudyard Kipling Ave", address2: "", city: "Singapore",  suburb: "Singapore", country: 3, postcode: 4322342}];
+                
+                
     }
+
+    Database.prototype.findCountryByName = function(name){
+        var country = this.countries.filter(function(f){
+            return f.name === name;
+        })
+        
+        if (country.length > 0)
+            return country[0]; 
+    }
+    
+     Database.prototype.findStateByName = function(name){
+        var state = this.states.filter(function(f){
+            return f.name === name;
+        })
+        
+        if (state.length > 0)
+            return state[0]; 
+    }
+    
+    
 
     return new Database();
 }

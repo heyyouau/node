@@ -5,5 +5,9 @@ validator.prototype.validateCountry = function(country) {
                 return false;
             return true;            
         }   
+        
+validator.prototype.validateNonEmptyId = function(id){
+    return !(id === undefined);
+}        
 
 export default new validator();
