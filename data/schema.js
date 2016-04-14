@@ -9,14 +9,92 @@ import {
 } from 'graphql';
 
 import validator from '../handlers/validator';
-import siteConfig from '../data/site'
-import {country, inputCountry} from '../data/country';
+
 
 
 let Schema = (db) => {
     
-    let site = siteConfig.getSite (db);
-    let inputSite = siteConfig.getInputSite();
+    
+  let country = new GraphQLObjectType({
+        name: "country",
+        fields: () => ({
+              id: {type: GraphQLInt,},
+            name: {type: GraphQLString}
+        })
+    });
+    
+    
+    let inputCountry = new inputType({
+        name: "inputCountry",
+        fields: () => ({
+            // id: {type: GraphQLInt },
+            name: {type: GraphQLString}
+        })
+    });
+    
+    let state = new GraphQLObjectType({
+        name: "state",
+        fields: () => ({
+            // id: {type: GraphQLInt },
+            name: {type: GraphQLString}
+        })
+    });
+    
+    let inputState = new inputType({
+        name: "inputState",
+        fields: () => ({
+            id: {type: GraphQLInt },
+            name: { type: GraphQLString }
+        })
+    });
+    
+    
+     let site = new GraphQLObjectType({
+        name: "site",
+        fields: () => ({
+            id: {type: GraphQLInt},
+            siteNo: { type: GraphQLString},
+            name: {type: GraphQLString},
+            address1: {type: GraphQLString},
+            address2: {type: GraphQLString},
+            suburb: {type: GraphQLString},
+            city: {type: GraphQLString},
+            country: { type: country,
+                        resolve: (parent, args, ast) => {
+                            return db.countries[parent.country];
+                        }
+                    },
+            state: { type: state,
+                        resolve: (parent, args, ast) => {
+                        if (parent.state != undefined){
+                            return db.states[parent.state] == undefined ? null : db.states[parent.state];
+                        }
+                    return null;
+                }
+            },
+            businessLayer1: { type: GraphQLString },
+            postcode: { type: GraphQLString } 
+        })
+    });
+    
+    
+      let inputSite = new inputType({
+        name: "inputSite",
+        fields: () => ({
+            id: { type: GraphQLInt },
+            siteNo: { type: GraphQLString },
+            name: { type: GraphQLString },
+            address1: { type: GraphQLString },
+            address2: { type: GraphQLString },
+            suburb: { type: GraphQLString },
+            city: { type: GraphQLString },
+            country: { type: inputCountry},
+            state: { type: inputState},
+            businessLayer1: { type: GraphQLString },
+            postcode: { type: GraphQLString } 
+        })
+    });
+    
 
     let updateSiteResult = new GraphQLObjectType({
             name: "updateSiteResult",

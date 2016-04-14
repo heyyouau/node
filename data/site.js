@@ -8,7 +8,7 @@ import {
     GraphQLInputObjectType as inputType
 } from 'graphql';
 
-import {country, inputCountry, state, inputState } from '../data/country';
+//import {country, inputCountry, state, inputState } from '../data/country';
 
 let siteConfig = ()=> {};
 
