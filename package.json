@@ -2,11 +2,9 @@
   "name": "graphqltesting",
   "version": "1.0.0",
   "description": "tests for graphql",
-  "main": "babel-node server.js",
+  "main": "lib/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node server.js",
-    "build": "babel server.js -o compiled.js"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",

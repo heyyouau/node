@@ -16,4 +16,6 @@ app.get('/', (req, res) => {
 });
 
 
-app.listen(5050);
+app.listen(6050);
+
+export default app;

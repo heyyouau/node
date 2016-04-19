@@ -1,12 +1,15 @@
 
+import PositionList from './positionEnums';
+var positions = PositionList();
+
 let DataLayer = () => {
 
 function Database () {
 
-    this.countries =  [{id: 0, name: "Australia"},
-                    {id: 1, name: "New Zealand"},
-                    {id: 2, name: "USA"},
-                    {id: 3, name: "Singapore"}];
+    this.countries =  [{id: 0, name: "Australia", iso: "AU"},
+                    {id: 1, name: "New Zealand",iso: "NZ"},
+                    {id: 2, name: "USA", iso: "USA"},
+                    {id: 3, name: "Singapore", iso: "SN"}];
                     
     this.states = [{id: 0, country: 1, name: "VIC"},
                     {id: 1, country:1, name: "NSW"},
@@ -32,10 +35,22 @@ function Database () {
     this.sites = [{id: 0, siteNo: "xxaa", name: "Melbourne CBD", address1: "200 Collins Street", address2: "", city: "Melbourne", suburb: "Melbourne", country: 0, state: 0, postcode: 3000},
                 {id: 1, siteNo: "xxaa222", name: "Sydney CBD", address1: "Level 3", address2: "200 George Street", city: "Sydney",  suburb: "Sydney", country: 0, state: 1, postcode: 2000},
                 {id: 2, siteNo: "xxaa333", name: "Singapore", address1: "17 Rudyard Kipling Ave", address2: "", city: "Singapore",  suburb: "Singapore", country: 3, postcode: 4322342}];
-                
-                
+    
+    this.positionsenums = positions.positions;
+    
+    this.positions = [{id: 0, site: 0,  name: "CEO", delegationLevel: 1, location: "CBD", agreement: "something", agreementType: 6, agreementClassification: 5, jobType: 1, payScale: 4, workType: 1, costCenter: 3, orgUnit: 3, jobSector: 1, asset:1, salaryFunded: true },
+                    {id: 1, site: 0, name: "COO",  delegationLevel: 1, location: "CBD", agreement: "something", agreementType: 6, agreementClassification: 5, jobType: 1, payScale: 4, workType: 1, costCenter: 3, orgUnit: 3, jobSector: 1, asset:1, parent: 0, salaryFunded: true },
+                    {id: 2, site: 0, name: "CFO", delegationLevel: 1, location: "CBD", agreement: "something", agreementType: 6, agreementClassification: 5, jobType: 1, payScale: 4, workType: 1, costCenter: 3, orgUnit: 3, jobSector: 1, asset:1, parent: 1, salaryFunded: true },
+                    {id: 3, site: 0, name: "CIO", delegationLevel: 1, location: "CBD", agreement: "something", agreementType: 6, agreementClassification: 5, jobType: 1, payScale: 4, workType: 1, costCenter: 3, orgUnit: 3, jobSector: 1, asset:1, parent: 2, salaryFunded: true },
+                    {id: 4, site: 0, name: "Cleaner", delegationLevel: 1, location: "CBD", agreement: "something", agreementType: 6, agreementClassification: 5, jobType: 1, payScale: 4, workType: 1, costCenter: 3, orgUnit: 3, jobSector: 1, asset:1, parent: 2, salaryFunded: true }];
+    
+    this.users = [{id: 0, position: 0, firstName: "Barry", lastName: "McKenzie" },
+                  {id: 1, position: 1, firstName: "Edna", lastName: "Everedge" },
+                  {id: 2, position: 2, firstName: "Darryl", lastName: "Kerrigan" }]
+    
     }
-
+    
+    
     Database.prototype.findCountryByName = function(name){
         var country = this.countries.filter(function(f){
             return f.name === name;
